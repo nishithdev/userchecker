@@ -2,8 +2,8 @@ name: My Workflow
 
 on:
   workflow_dispatch:
-    input: 
-      value:
+    inputs: 
+      input:
         type: string
         description: 'enter the number'    
         required: true
@@ -24,7 +24,7 @@ jobs:
           fi
       - name: Echo user
         if: ${{ steps.check_input.outputs.next_job == 'echo_user' }}
-        run: echo "User: ${{ github.actor }}"
+        run: echo "User is valid"
       - name: Echo branch
         if: ${{ steps.check_input.outputs.next_job == 'echo_branch' }}
-        run: echo "Branch: ${{ github.ref }}"
+        run: echo "Branch is valid"

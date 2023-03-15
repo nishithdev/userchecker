@@ -1,17 +1,30 @@
 name: My Workflow
 
-on: [push]
-
+on:
+  workflow_dispatch:
+    input: 
+      value:
+        type: string
+        description: 'enter the number'    
+        required: true
 jobs:
-  build:
+  job-1:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check User
-      run: |
-        allowed_users = "nishithdev"
-        current_user = ${{ github.actor }}
-        if current_user in allowed_users:
-          echo "User is allowed"
-        else:
-          echo "User is not allowed"
+      - name: Check input
+        run: |
+          INPUT_VALUE="${{ github.event.inputs.input }}"
+          ALLOWED_VALUES="1,5,7,8,11"
+          if echo "$ALLOWED_VALUES" | grep -qw "$INPUT_VALUE"; then
+            echo "Input value is valid, running next job"
+            echo "::set-output name=next_job::echo_user"
+          else
+            echo "Input value is invalid, skipping next job"
+            echo "::set-output name=next_job::echo_branch"
+          fi
+      - name: Echo user
+        if: ${{ steps.check_input.outputs.next_job == 'echo_user' }}
+        run: echo "User: ${{ github.actor }}"
+      - name: Echo branch
+        if: ${{ steps.check_input.outputs.next_job == 'echo_branch' }}
+        run: echo "Branch: ${{ github.ref }}"

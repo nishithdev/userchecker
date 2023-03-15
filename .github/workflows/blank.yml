@@ -2,9 +2,6 @@ name: My Workflow
 
 on: [push]
 
-env:
-  ALLOWED_USERS: "nishithdev,b,c,d,e"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +9,7 @@ jobs:
     steps:
     - name: Check User
       run: |
-        allowed_users = [user.strip() for user in os.environ['ALLOWED_USERS'].split(',')]
+        allowed_users = "nishithdev
         current_user = ${{ github.actor }}
         if current_user in allowed_users:
           echo "User is allowed"

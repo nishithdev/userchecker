@@ -1,0 +1,17 @@
+name: user-checker
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check User
+      run: |
+        allowed_users = ['a', 'b', 'c', 'd', 'e']
+        current_user = ${{ github.actor }}
+        if current_user in allowed_users:
+          echo 'User ${{ github.actor }}is  allowed'
+        else:
+          echo 'User ${{ github.actor }} is not allowed'

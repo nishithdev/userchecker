@@ -1,6 +1,9 @@
-name: user-checker
+name: My Workflow
 
 on: [push]
+
+env:
+  ALLOWED_USERS: "nishithdev,b,c,d,e"
 
 jobs:
   build:
@@ -9,9 +12,9 @@ jobs:
     steps:
     - name: Check User
       run: |
-        allowed_users = ['nishithdev', 'b', 'c', 'd', 'e']
+        allowed_users = [user.strip() for user in os.environ['ALLOWED_USERS'].split(',')]
         current_user = ${{ github.actor }}
         if current_user in allowed_users:
-          echo 'User ${{ github.actor }}is  allowed'
+          echo "User is allowed"
         else:
-          echo 'User ${{ github.actor }} is not allowed'
+          echo "User is not allowed"

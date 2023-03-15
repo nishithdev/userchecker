@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Check User
       run: |
-        allowed_users = "nishithdev
+        allowed_users = "nishithdev"
         current_user = ${{ github.actor }}
         if current_user in allowed_users:
           echo "User is allowed"
